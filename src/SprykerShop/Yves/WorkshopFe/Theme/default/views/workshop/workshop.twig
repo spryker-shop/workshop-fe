@@ -1,0 +1,69 @@
+{% extends template('page-layout-main') %}
+
+{% define data = {
+    title: 'WorkshopFe',
+
+    cars: _view.cars
+}%}
+
+{% block content %}
+    {% block cards %}
+        <div class="grid grid--stretch">
+            {% for car in data.cars %}
+                {% embed molecule('card') with {
+                    class: 'col col--sm-6',
+                    data: {
+                        name: car.name,
+                        url: car.url,
+                        imageUrl: car.imageUrl,
+                        description: car.description
+                    },
+                    embed: {
+                        topSpeed: car.topSpeed
+                    }
+                } only %}
+                    {% block actions %}
+                        <div class="text-right text-alt">
+                            {% include atom('icon') with {
+                                class: 'spacing spacing--small',
+                                data: {
+                                    name: 'star'
+                                }
+                            } only %}
+                            <strong>Top speed: {{embed.topSpeed}}</strong>
+                        </div>
+                    {% endblock %}
+                {% endembed %}
+            {% endfor %}
+        </div>
+    {% endblock %}
+
+    {% block form %}
+        <form class="box text-right" method="POST" action="/cart/add-car">
+            {% set options = [{
+                label: 'Select a car...',
+                value: null
+            }] %}
+
+            {% for car in data.cars %}
+                {% set options = options | merge([{
+                    label: car.name,
+                    value: car.sku
+                }]) %}
+            {% endfor %}
+
+            {% include atom('select') with {
+                data: {
+                    options: options
+                },
+                attributes: {
+                    name: 'sku'
+                }
+            } only %}
+
+            <button type="submit" class="button button--success">I'm buying this one!</button>
+        </form>
+    {% endblock %}
+{% endblock %}
+
+{% block footer %}{% endblock %}
