@@ -1,0 +1,25 @@
+{% extends template('page-layout-main') %}
+
+{% define data = {
+    title: 'WorkshopFe (task 2)',
+
+    cars: _view.cars,
+    questions: _view.questions
+}%}
+
+{% block content %}
+    {% include organism('display', 'WorkshopFe') with {
+        data: {
+            cars: data.cars
+        }
+    } only %}
+
+    {% include organism('interaction', 'WorkshopFe') with {
+        data: {
+            cars: data.cars,
+            questions: data.questions
+        }
+    } only %}
+{% endblock %}
+
+{% block footer %}{% endblock %}
