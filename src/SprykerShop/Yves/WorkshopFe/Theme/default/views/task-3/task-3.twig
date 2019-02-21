@@ -1,5 +1,32 @@
-{% extends view('task-2', 'WorkshopFe') %}
+{% extends template('page-layout-main') %}
 
 {% define data = {
-    title: 'WorkshopFe (task 3 on project level)'
+    title: 'WorkshopFe (task 3 - extend on project level)',
+
+    task: _view.task,
+    cars: _view.cars,
+    questions: _view.questions
 }%}
+
+{% block content %}
+    {% include molecule('display', 'WorkshopFe') with {
+        data: {
+            cars: data.cars
+        }
+    } only %}
+
+    {% include molecule('questionnaire', 'WorkshopFe') with {
+        data: {
+            questions: data.questions
+        }
+    } only %}
+
+    {% include molecule('form', 'WorkshopFe') with {
+        data: {
+            task: data.task,
+            cars: data.cars
+        }
+    } only %}
+{% endblock %}
+
+{% block footer %}{% endblock %}

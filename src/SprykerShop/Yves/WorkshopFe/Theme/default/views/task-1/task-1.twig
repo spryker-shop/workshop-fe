@@ -3,8 +3,7 @@
 {% define data = {
     title: 'WorkshopFe (task 1)',
 
-    cars: _view.cars,
-    questions: _view.questions
+    cars: _view.cars
 }%}
 
 {% block content %}
@@ -36,12 +35,6 @@
             {% endembed %}
         {% endfor %}
     </div>
-
-    <ul class="box">
-        {% for question in data.questions %}
-            <li>{{question.text}}</li>
-        {% endfor %}
-    </ul>
 
     <form class="box text-right" method="POST" action="/cart/add-car">
         {% set options = [{

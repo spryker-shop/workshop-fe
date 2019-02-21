@@ -3,21 +3,28 @@
 {% define data = {
     title: 'WorkshopFe (task 2)',
 
+    task: _view.task,
     cars: _view.cars,
     questions: _view.questions
 }%}
 
 {% block content %}
-    {% include organism('display', 'WorkshopFe') with {
+    {% include molecule('display', 'WorkshopFe') with {
         data: {
             cars: data.cars
         }
     } only %}
 
-    {% include organism('interaction', 'WorkshopFe') with {
+    {% include molecule('questionnaire', 'WorkshopFe') with {
         data: {
-            cars: data.cars,
             questions: data.questions
+        }
+    } only %}
+
+    {% include molecule('form', 'WorkshopFe') with {
+        data: {
+            task: data.task,
+            cars: data.cars
         }
     } only %}
 {% endblock %}

@@ -7,17 +7,11 @@
 
 {% define data = {
     cars: required,
-    questions: required,
+    task: 0,
     submitText: 'I\'m buying this one!'
 }%}
 
 {% block body %}
-    <ul class="box list">
-        {% for question in data.questions %}
-            <li class="list__item">{{question.text}}</li>
-        {% endfor %}
-    </ul>
-
     <form class="box text-right" method="POST" action="/cart/add-car">
         {% set options = [{
             label: 'Select a car...',
@@ -40,6 +34,7 @@
             }
         } only %}
 
+        <input type="hidden" name="task" value="{{data.task}}" />
         <button type="submit" class="button button--success">{{data.submitText}}</button>
     </form>
 {% endblock %}

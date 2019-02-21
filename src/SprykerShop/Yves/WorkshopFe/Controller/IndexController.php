@@ -18,6 +18,7 @@ class IndexController extends AbstractController
 
     public function indexAction(Request $request)
     {
+        // this is f**king dangerous 😱...
         $task = $this->getTask($request);
         $viewData = $this->executeIndexAction($task);
 
@@ -46,6 +47,7 @@ class IndexController extends AbstractController
         $questions = $this->getSneakyQuestions($task);
 
         return [
+            'task' => $task,
             'cars' => $cars,
             'questions' => $questions
         ];
@@ -80,17 +82,23 @@ class IndexController extends AbstractController
     }
 
     protected function getSneakyQuestions($task) {
+        // 🤔
         $path = $this->getSneakyQuestionsJsonFilePath($task);
         $file = file_get_contents($path);
         $questions = json_decode($file, true);
 
-        // 🤔
         return $questions['questions'];
     }
 
     protected function getSneakyQuestionsJsonFilePath($task) {
-        $modulePath = realpath(
-            $this->baseDir .
+        // 🤔
+        $projectPath = realpath(
+            __DIR__ .
+            DIRECTORY_SEPARATOR . '..' .
+            DIRECTORY_SEPARATOR . '..' .
+            DIRECTORY_SEPARATOR . '..' .
+            DIRECTORY_SEPARATOR . '..' .
+            DIRECTORY_SEPARATOR . '..' .
             DIRECTORY_SEPARATOR . '..' .
             DIRECTORY_SEPARATOR . '..' .
             DIRECTORY_SEPARATOR . '..' .
@@ -98,6 +106,6 @@ class IndexController extends AbstractController
             DIRECTORY_SEPARATOR . '..'
         );
 
-        return $modulePath . '/data/workshop-fe/questions-' . $task . '.json';
+        return $projectPath . '/data/workshop-fe/questions-' . $task . '.json';
     }
 }
