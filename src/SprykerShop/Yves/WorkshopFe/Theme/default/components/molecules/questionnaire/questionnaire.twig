@@ -1,0 +1,18 @@
+{% extends model('component') %}
+
+{% define config = {
+    name: 'questionnaire',
+    tag: 'section'
+}%}
+
+{% define data = {
+    questions: required
+}%}
+
+{% block body %}
+    <ul class="box">
+        {% for question in data.questions %}
+            <li>{{question.text}}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

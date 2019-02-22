@@ -1,0 +1,41 @@
+{% extends model('component') %}
+
+{% define config = {
+    name: 'display',
+    tag: 'section'
+}%}
+
+{% define data = {
+    cars: required
+}%}
+
+{% block body %}
+    <div class="grid grid--stretch">
+        {% for car in data.cars %}
+            {% embed molecule('card') with {
+                class: 'col col--sm-6',
+                data: {
+                    name: car.name,
+                    url: car.url,
+                    imageUrl: car.imageUrl,
+                    description: car.description
+                },
+                embed: {
+                    topSpeed: car.topSpeed
+                }
+            } only %}
+                {% block actions %}
+                    <div class="text-right text-alt">
+                        {% include atom('icon') with {
+                            class: 'spacing spacing--small',
+                            data: {
+                                name: 'star'
+                            }
+                        } only %}
+                        <strong>Top speed: {{embed.topSpeed}}</strong>
+                    </div>
+                {% endblock %}
+            {% endembed %}
+        {% endfor %}
+    </div>
+{% endblock %}

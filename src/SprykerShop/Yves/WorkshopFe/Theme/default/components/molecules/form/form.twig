@@ -1,0 +1,40 @@
+{% extends model('component') %}
+
+{% define config = {
+    name: 'interaction',
+    tag: 'section'
+}%}
+
+{% define data = {
+    cars: required,
+    task: 0,
+    submitText: 'I\'m buying this one!'
+}%}
+
+{% block body %}
+    <form class="box text-right" method="POST" action="/cart/add-car">
+        {% set options = [{
+            label: 'Select a car...',
+            value: null
+        }] %}
+
+        {% for car in data.cars %}
+            {% set options = options | merge([{
+                label: car.name,
+                value: car.sku
+            }]) %}
+        {% endfor %}
+
+        {% include atom('select') with {
+            data: {
+                options: options
+            },
+            attributes: {
+                name: 'sku'
+            }
+        } only %}
+
+        <input type="hidden" name="task" value="{{data.task}}" />
+        <button type="submit" class="button button--success">{{data.submitText}}</button>
+    </form>
+{% endblock %}
